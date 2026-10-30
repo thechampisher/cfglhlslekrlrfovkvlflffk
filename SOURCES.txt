@@ -1,6 +1,0 @@
-DOMINO_REPOSITORY=https://github.com/dominoiptv/dominotv
-DOMINO_FILE=liste.json
-GUNES_REPOSITORY=https://github.com/GeceHub/gunestv
-GUNES_FILES=live2.json,vod2.json
-GUNES_LOGO_DIRECTORY=kanal_logo/
-NO_DEARBULUT_API=true
