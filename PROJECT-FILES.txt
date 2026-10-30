@@ -1,0 +1,17 @@
+.github/workflows/android.yml
+.gitignore
+FFMPEG-SES-KURULUM-TR.md
+README-TR.md
+SOURCES.txt
+app/build.gradle
+app/src/main/AndroidManifest.xml
+app/src/main/java/com/isatvhd/player/Channel.java
+app/src/main/java/com/isatvhd/player/GitHubSource.java
+app/src/main/java/com/isatvhd/player/JsonChannelParser.java
+app/src/main/java/com/isatvhd/player/MainActivity.java
+app/src/main/java/com/isatvhd/player/PlayerActivity.java
+app/src/main/res/values/styles.xml
+build.gradle
+gradle.properties
+settings.gradle
+tall openjdk-21 -y
