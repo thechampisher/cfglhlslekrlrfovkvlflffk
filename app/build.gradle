@@ -1,0 +1,24 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.isatvhd.player'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.isatvhd.player'
+        minSdk 24
+        targetSdk 28
+        versionCode 1
+        versionName '1.0.0'
+    }
+}
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.media3:media3-exoplayer:1.5.1'
+    implementation 'androidx.media3:media3-ui:1.5.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.google.code.gson:gson:2.11.0'
+    // Add the official Media3 FFmpeg audio decoder AAR to app/libs/.
+    // This extension decodes AUDIO only; video remains on Android/Media3 video renderers.
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+}
