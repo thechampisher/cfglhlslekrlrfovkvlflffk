@@ -1,0 +1,2954 @@
+:root {
+    --bg: #141414;
+    --bg-soft: #1b1b1b;
+    --bg-card: #202020;
+    --bg-elevated: #2b2b2b;
+    --text: #ffffff;
+    --text-soft: #b3b3b3;
+    --brand: #e50914;
+    --brand-soft: #ff3440;
+    --line: rgba(255, 255, 255, 0.14);
+    --overlay: rgba(0, 0, 0, 0.68);
+    --radius: 10px;
+    --radius-sm: 7px;
+    --shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+    --ease: 220ms ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: radial-gradient(circle at 18% -8%, #2a2a2a 0%, var(--bg) 45%), var(--bg);
+    color: var(--text);
+    line-height: 1.4;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Splash */
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    background: #000;
+    animation: splashFadeOut 0.45s ease-out 2.4s forwards;
+}
+
+.splash-content {
+    text-align: center;
+}
+
+.splash-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: clamp(2rem, 6vw, 4rem);
+    letter-spacing: 0.04em;
+    color: var(--brand);
+    text-shadow: 0 0 26px rgba(229, 9, 20, 0.55);
+}
+
+.splash-loader {
+    width: min(260px, 75vw);
+    margin: 1.25rem auto 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.loader-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--brand), var(--brand-soft));
+    animation: loadingBar 2.4s ease-out forwards;
+}
+
+@keyframes loadingBar {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes splashFadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* Homepage navigation */
+.homepage-container {
+    position: relative;
+}
+
+.netflix-nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem clamp(1rem, 3vw, 2.4rem);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0));
+}
+
+.nav-left,
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.playlist-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.playlist-toggle label {
+    font-size: 0.72rem;
+    color: var(--text-soft);
+}
+
+.playlist-toggle select {
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 0.8rem;
+    outline: none;
+    min-width: 88px;
+}
+
+.playlist-toggle select option {
+    color: #111;
+}
+
+.playlist-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.18rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(229, 9, 20, 0.25);
+    border: 1px solid rgba(229, 9, 20, 0.55);
+    color: #ffe4e6;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--brand);
+    font-size: clamp(1.1rem, 2vw, 1.65rem);
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    color: var(--text-soft);
+    font-size: 0.92rem;
+}
+
+.nav-links a {
+    transition: color var(--ease);
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+    color: var(--text);
+}
+
+.nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 999px;
+    padding: 0.5rem 0.9rem;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--line);
+    transition: transform var(--ease), background var(--ease);
+}
+
+.nav-pill:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--ease), transform var(--ease);
+}
+
+.nav-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+}
+
+.home-sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1250;
+    transition: opacity var(--ease), visibility var(--ease);
+}
+
+.home-sidebar-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.home-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 88vw);
+    height: 100dvh;
+    z-index: 1300;
+    background: #121212;
+    border-right: 1px solid var(--line);
+    transform: translateX(-100%);
+    transition: transform var(--ease);
+    padding: max(1rem, env(safe-area-inset-top)) 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.home-sidebar.open {
+    transform: translateX(0);
+}
+
+.home-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home-sidebar-header h2 {
+    font-size: 1.05rem;
+    color: var(--brand);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.home-sidebar-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.home-sidebar-nav {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.home-sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.68rem 0.75rem;
+    border-radius: var(--radius-sm);
+    color: #f2f2f2;
+    border: 1px solid transparent;
+    transition: background var(--ease), border-color var(--ease);
+}
+
+.home-sidebar-nav a:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: var(--line);
+}
+
+body.home-sidebar-open {
+    overflow: hidden;
+}
+
+/* Download page */
+.download-page {
+    min-height: 100dvh;
+}
+
+.download-page-main {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+    padding: 7.4rem clamp(1rem, 3vw, 2.4rem) 2.4rem;
+}
+
+.download-hero {
+    margin-bottom: 1.4rem;
+}
+
+.download-hero h1 {
+    font-size: clamp(1.9rem, 4.8vw, 3rem);
+    margin-bottom: 0.45rem;
+}
+
+.download-hero p {
+    color: var(--text-soft);
+}
+
+.download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 0.95rem;
+}
+
+.download-card {
+    background: linear-gradient(165deg, #212121, #191919 70%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.download-card .platform-icon {
+    font-size: 2.1rem;
+    margin-bottom: 0.6rem;
+}
+
+.download-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.download-card p {
+    color: var(--text-soft);
+    margin-bottom: 0.75rem;
+}
+
+.download-meta {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.84rem;
+    color: #d7d7d7;
+    margin-bottom: 0.8rem;
+}
+
+.download-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    background: var(--brand);
+    color: #fff;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 0.95rem;
+}
+
+.download-btn:hover {
+    background: #c80812;
+}
+
+.download-btn.disabled,
+.download-btn:disabled {
+    background: #3a3a3a;
+    color: #b9b9b9;
+    cursor: not-allowed;
+    border: 1px solid #4d4d4d;
+}
+
+.download-btn.disabled:hover,
+.download-btn:disabled:hover {
+    background: #3a3a3a;
+}
+
+.coming-soon-card {
+    border-style: dashed;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.download-details {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.9rem;
+}
+
+.details-panel {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.95rem;
+}
+
+.details-panel h3 {
+    margin-bottom: 0.5rem;
+}
+
+.details-panel ol {
+    padding-left: 1.2rem;
+    color: #d7d7d7;
+    display: grid;
+    gap: 0.35rem;
+}
+
+/* Hero */
+.hero-showcase {
+    position: relative;
+    min-height: 78vh;
+    padding: 7.2rem clamp(1rem, 3vw, 2.4rem) 2.2rem;
+    display: flex;
+    align-items: end;
+    background:
+        linear-gradient(80deg, rgba(0, 0, 0, 0.92) 12%, rgba(0, 0, 0, 0.45) 55%, rgba(0, 0, 0, 0.85) 100%),
+        radial-gradient(circle at 78% 30%, rgba(229, 9, 20, 0.32), rgba(20, 20, 20, 0.2) 40%),
+        linear-gradient(145deg, #090909, #282828 65%, #111111);
+}
+
+.featured-showcase {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+}
+
+.showcase-content {
+    max-width: 620px;
+}
+
+.showcase-title {
+    font-size: clamp(2.1rem, 5.6vw, 3.8rem);
+    line-height: 1.05;
+    margin-bottom: 0.9rem;
+}
+
+.showcase-description {
+    color: #dddddd;
+    max-width: 55ch;
+    margin-bottom: 1.2rem;
+}
+
+.showcase-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.05rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    transition: transform var(--ease), background var(--ease), border-color var(--ease);
+}
+
+.btn-primary {
+    background: var(--text);
+    color: #111;
+}
+
+.btn-secondary {
+    background: rgba(109, 109, 110, 0.7);
+    color: var(--text);
+}
+
+.btn-nav {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--text);
+    border: 1px solid var(--line);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-nav:hover {
+    transform: translateY(-1px);
+}
+
+/* Rows and cards */
+.content-rows {
+    width: min(1360px, 100%);
+    margin: 0 auto;
+    padding: 1.2rem clamp(1rem, 3vw, 2.4rem) 2.4rem;
+}
+
+.row-section,
+.categories-showcase,
+.all-channels-section {
+    margin-top: 1.35rem;
+}
+
+.row-header,
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+}
+
+.row-title,
+.section-title,
+.section-header h2 {
+    font-size: clamp(1.05rem, 2.1vw, 1.45rem);
+    font-weight: 600;
+}
+
+.row-arrow {
+    width: 33px;
+    height: 33px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: rgba(25, 25, 25, 0.88);
+    color: var(--text);
+    transition: background var(--ease), transform var(--ease);
+}
+
+.row-header .row-arrow:first-of-type {
+    margin-left: auto;
+}
+
+.row-arrow:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.row-content {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(220px, 1fr);
+    overflow-x: auto;
+    gap: 0.8rem;
+    padding-bottom: 0.35rem;
+    scrollbar-width: none;
+}
+
+.row-content::-webkit-scrollbar {
+    display: none;
+}
+
+.channels-grid,
+.category-grid {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.channels-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.category-grid {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.channel-card,
+.channel-card-horizontal,
+.category-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: linear-gradient(160deg, #242424, #171717);
+    border: 1px solid transparent;
+    transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
+}
+
+.channel-card,
+.channel-card-horizontal,
+.channel-list-item {
+    content-visibility: auto;
+}
+
+.channel-card,
+.channel-card-horizontal {
+    contain-intrinsic-size: 200px;
+}
+
+.channel-list-item {
+    contain-intrinsic-size: 72px;
+}
+
+.channel-card:hover,
+.channel-card-horizontal:hover,
+.category-card:hover {
+    transform: scale(1.03) translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.24);
+    box-shadow: var(--shadow);
+}
+
+.channel-thumbnail {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, #2b2b2b, #191919);
+    overflow: hidden;
+}
+
+.channel-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.channel-thumb-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #111;
+    padding: 0.55rem;
+    z-index: 1;
+}
+
+.channel-placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, #2f2f2f, #171717);
+    color: #d3d3d3;
+    font-size: 1.15rem;
+    z-index: 0;
+}
+
+.channel-placeholder i {
+    font-size: 1.55rem;
+    margin-bottom: 0.3rem;
+}
+
+.channel-logo-badge {
+    position: absolute;
+    top: 0.55rem;
+    left: 0.55rem;
+    width: 34px;
+    height: 34px;
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(2px);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.channel-logo-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #0f0f0f;
+}
+
+.channel-logo-badge span {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.channel-thumbnail .channel-overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: grid;
+    place-items: center;
+    min-height: 58%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0));
+    opacity: 0;
+    transition: opacity var(--ease);
+    z-index: 3;
+}
+
+.channel-live-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 22px;
+    padding: 0 0.4rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    z-index: 4;
+    background: rgba(20, 20, 20, 0.8);
+}
+
+.channel-live-badge.status-live {
+    background: rgba(16, 185, 129, 0.22);
+    border-color: rgba(16, 185, 129, 0.55);
+    color: #b7f7e2;
+}
+
+.channel-live-badge.status-dead {
+    background: rgba(239, 68, 68, 0.24);
+    border-color: rgba(239, 68, 68, 0.6);
+    color: #ffd0d0;
+}
+
+.channel-live-badge.status-checking {
+    background: rgba(148, 163, 184, 0.2);
+    border-color: rgba(148, 163, 184, 0.55);
+    color: #d8e4f2;
+}
+
+.channel-card:hover .channel-thumbnail .channel-overlay,
+.channel-card-horizontal:hover .channel-thumbnail .channel-overlay {
+    opacity: 1;
+}
+
+.play-button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--text);
+    color: #111;
+    display: inline-grid;
+    place-items: center;
+}
+
+.channel-info {
+    padding: 0.7rem;
+}
+
+.channel-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.channel-group {
+    margin-top: 0.2rem;
+    color: var(--text-soft);
+    font-size: 0.75rem;
+}
+
+.category-card {
+    position: relative;
+    min-height: 150px;
+}
+
+.category-image {
+    position: absolute;
+    inset: 0;
+}
+
+.news-bg { background: linear-gradient(140deg, #b90d15, #8227c7); }
+.entertainment-bg { background: linear-gradient(140deg, #8234d1, #1f95c9); }
+.music-bg { background: linear-gradient(140deg, #2e9e7f, #ebb423); }
+.kids-bg { background: linear-gradient(140deg, #d85693, #5fa338); }
+
+.category-overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 0.8rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0));
+}
+
+.category-overlay h3 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.category-overlay p {
+    color: #d6d6d6;
+    font-size: 0.8rem;
+}
+
+.search-container {
+    position: relative;
+    width: min(320px, 100%);
+}
+
+.search-container input {
+    width: 100%;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    padding: 0.57rem 0.85rem 0.57rem 2.2rem;
+}
+
+.search-container i {
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-soft);
+}
+
+.loading-placeholder {
+    display: grid;
+    grid-template-columns: inherit;
+    gap: inherit;
+}
+
+.placeholder-card,
+.placeholder-item {
+    border-radius: var(--radius);
+    background: linear-gradient(120deg, #202020, #2a2a2a, #202020);
+    background-size: 200% 100%;
+    animation: skeleton 1.2s linear infinite;
+}
+
+.placeholder-card {
+    min-height: 180px;
+}
+
+.placeholder-item {
+    min-height: 56px;
+}
+
+@keyframes skeleton {
+    from { background-position: 0 0; }
+    to { background-position: 200% 0; }
+}
+
+.main-footer {
+    margin-top: 2rem;
+    padding: 1.6rem clamp(1rem, 3vw, 2.4rem);
+    border-top: 1px solid var(--line);
+    color: var(--text-soft);
+}
+
+.footer-content {
+    width: min(1360px, 100%);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.brand-info h3 {
+    color: #f0f0f0;
+}
+
+.developer-credits i {
+    color: var(--brand);
+}
+
+.developer-credits a {
+    color: #e6e6e6;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.developer-credits a:hover {
+    color: #ffffff;
+}
+
+.footer-handle {
+    color: #f3f3f3;
+}
+
+/* Player */
+.video-player-page {
+    background: #000;
+}
+
+.player-navbar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 1300;
+    padding: 0.95rem clamp(0.8rem, 2.6vw, 2rem);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0));
+}
+
+.player-navbar.scrolled {
+    background: rgba(0, 0, 0, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-container {
+    width: min(1680px, 100%);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-logo h1 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+    color: var(--brand);
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.player-container {
+    height: 100vh;
+}
+
+.video-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #000;
+}
+
+#video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+}
+
+.video-wrapper > .channel-overlay {
+    position: absolute;
+    inset: auto 0 102px 0;
+    padding: 1.2rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0));
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--ease), transform var(--ease);
+}
+
+.video-wrapper.show-controls > .channel-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.video-wrapper.is-paused > .channel-overlay {
+    opacity: 0 !important;
+    transform: translateY(10px);
+}
+
+.channel-meta h2 {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    margin-bottom: 0.25rem;
+}
+
+.channel-meta p {
+    color: var(--text-soft);
+}
+
+.channel-stats {
+    margin-top: 0.45rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+}
+
+.separator {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+#channel-resolution {
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 5px;
+    padding: 0.12rem 0.4rem;
+}
+
+.loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity var(--ease), visibility var(--ease);
+    z-index: 11;
+}
+
+.loading-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.spinner-netflix {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.22);
+    border-top-color: var(--brand);
+    animation: spin 1s linear infinite;
+    margin: 0 auto 0.7rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.player-controls-overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 12;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1rem 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.94), rgba(0, 0, 0, 0.1));
+    opacity: 0;
+    transition: opacity var(--ease);
+}
+
+.video-wrapper.show-controls .player-controls-overlay {
+    opacity: 1;
+}
+
+.control-buttons,
+.control-buttons-right,
+.volume-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.control-btn,
+.control-btn-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background var(--ease), transform var(--ease);
+}
+
+.control-btn.main-play {
+    width: 56px;
+    height: 56px;
+    background: var(--text);
+    color: #111;
+    border: none;
+}
+
+.control-btn:hover,
+.control-btn-icon:hover,
+.control-btn-icon.active {
+    background: var(--brand);
+}
+
+.control-btn.main-play:hover {
+    background: #ececec;
+}
+
+.progress-container {
+    width: 100%;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.22);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: var(--brand);
+}
+
+.volume-controls {
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.42);
+}
+
+.volume-btn {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+}
+
+.volume-slider {
+    width: 88px;
+    accent-color: var(--brand);
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(370px, 94vw);
+    transform: translateX(100%);
+    transition: transform var(--ease);
+    z-index: 1400;
+    background: #111;
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar-header,
+.sidebar-search,
+.sidebar-content,
+.now-playing,
+.channel-list-container,
+.quick-actions {
+    padding: 0.9rem;
+}
+
+.sidebar-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.now-playing {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #111;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.now-playing-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+}
+
+.collapse-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+}
+
+.collapse-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.now-playing.collapsed .current-channel-card,
+.now-playing.collapsed .program-panel {
+    display: none;
+}
+
+.sidebar-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.44);
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+}
+
+.playlist-header-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.player-playlist-toggle {
+    border-radius: var(--radius-sm);
+    padding: 0.25rem 0.5rem;
+}
+
+.close-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.current-channel-card {
+    margin-top: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.7rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.program-panel {
+    margin-top: 0.7rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.program-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.4rem;
+}
+
+.program-row .label,
+.meta-item .label {
+    color: var(--text-soft);
+    font-size: 0.72rem;
+}
+
+.program-row .value,
+.meta-item .value {
+    font-size: 0.78rem;
+    text-align: right;
+    max-width: 62%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.program-progress-wrap {
+    margin: 0.3rem 0 0.6rem;
+}
+
+.program-progress-bar {
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+.program-progress-fill {
+    height: 100%;
+    width: 0;
+    background: var(--brand);
+}
+
+.program-progress-wrap .muted {
+    display: inline-block;
+    margin-top: 0.25rem;
+    color: var(--text-soft);
+    font-size: 0.72rem;
+}
+
+.program-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 0.6rem;
+    margin-top: 0.45rem;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.meta-item.wide {
+    grid-column: 1 / -1;
+}
+
+.meta-item .value {
+    max-width: 100%;
+    text-align: left;
+}
+
+#sidebar-channel-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    object-fit: contain;
+    background: #1b1b1b;
+}
+
+.channel-list-container {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.2rem;
+}
+
+.channel-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.channel-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.channel-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+}
+
+.channel-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+}
+
+.channel-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.44);
+}
+
+.channel-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.85rem 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.channel-list-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.channel-list-item.active {
+    background: rgba(229, 9, 20, 0.28);
+}
+
+.channel-logo-small {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.channel-logo-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.channel-info-small {
+    min-width: 0;
+    flex: 1;
+}
+
+.channel-list-item .channel-live-badge {
+    position: static;
+    min-width: 40px;
+    height: 20px;
+    font-size: 0.58rem;
+    margin-left: auto;
+}
+
+.channel-info-small h5,
+.channel-info-small p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.channel-info-small h5 {
+    font-size: 0.95rem;
+    margin-bottom: 0.15rem;
+}
+
+.channel-info-small p {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+}
+
+.play-indicator {
+    color: #fff;
+}
+
+.action-buttons {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.62rem 0.7rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.load-more-wrap {
+    margin-top: 0.85rem;
+    display: flex;
+    justify-content: center;
+}
+
+.channel-list-container .load-more-wrap {
+    margin-top: 0.55rem;
+    padding-bottom: 0.2rem;
+}
+
+.load-more-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: background var(--ease), transform var(--ease);
+}
+
+.load-more-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+}
+
+.error-message {
+    position: fixed;
+    right: 1rem;
+    top: 1rem;
+    z-index: 1500;
+    background: var(--brand);
+    padding: 0.75rem 0.9rem;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+}
+
+.no-channels-message {
+    text-align: center;
+    color: var(--text-soft);
+    padding: 1.2rem 0.8rem;
+}
+
+/* Modes */
+body.theater-mode .player-container {
+    height: 100vh;
+}
+
+body.theater-mode .video-wrapper > .channel-overlay {
+    bottom: 92px;
+}
+
+body.fullscreen-active .player-navbar,
+body.fullscreen-active .sidebar {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+    .nav-links {
+        display: none;
+    }
+
+    .row-content {
+        grid-auto-columns: minmax(180px, 1fr);
+    }
+
+    .player-controls-overlay {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+
+    .control-buttons,
+    .control-buttons-right {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-showcase {
+        min-height: 62vh;
+        padding-top: 6.2rem;
+    }
+
+    .content-rows {
+        padding: 1rem 0.8rem 2rem;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .player-controls-overlay {
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+
+    .control-btn,
+    .control-btn-icon,
+    .volume-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .control-btn.main-play {
+        width: 62px;
+        height: 62px;
+    }
+
+    #theater-mode {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .channels-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .row-content {
+        grid-auto-columns: minmax(155px, 1fr);
+    }
+
+    .channel-logo-badge {
+        width: 30px;
+        height: 30px;
+        top: 0.45rem;
+        left: 0.45rem;
+    }
+
+    .control-buttons-right {
+        flex-wrap: wrap;
+    }
+
+    #pip-toggle {
+        display: none;
+    }
+}
+
+/* Responsive hardening overrides */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+img,
+video {
+    max-width: 100%;
+}
+
+.hero-showcase {
+    min-height: 78dvh;
+}
+
+.player-container {
+    height: 100dvh;
+}
+
+.video-wrapper > .channel-overlay {
+    inset: auto 0 calc(86px + env(safe-area-inset-bottom)) 0;
+}
+
+.player-controls-overlay {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.sidebar {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.sidebar-header {
+    padding-top: max(0.9rem, env(safe-area-inset-top));
+}
+
+@media (max-width: 980px) {
+    .player-navbar .nav-container {
+        gap: 0.55rem;
+    }
+
+    .player-navbar .btn-nav {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.82rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .netflix-nav {
+        padding: max(0.8rem, env(safe-area-inset-top)) 0.8rem 0.8rem;
+        gap: 0.55rem;
+    }
+
+    .nav-left {
+        min-width: 0;
+    }
+
+    .brand-logo {
+        font-size: 1.1rem;
+    }
+
+    .nav-right .nav-pill {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .playlist-toggle {
+        padding: 0.28rem 0.45rem;
+    }
+
+    .playlist-toggle label {
+        display: none;
+    }
+
+    .playlist-badge {
+        display: none;
+    }
+
+    .playlist-toggle select {
+        min-width: 74px;
+        font-size: 0.76rem;
+    }
+
+    .hero-showcase {
+        min-height: 62dvh;
+    }
+
+    .player-navbar {
+        padding: max(0.6rem, env(safe-area-inset-top)) 0.7rem 0.6rem;
+    }
+
+    .player-navbar .nav-logo h1 {
+        font-size: 1rem;
+    }
+
+    .player-navbar .btn-nav {
+        padding: 0.45rem 0.6rem;
+    }
+
+    .player-controls-overlay {
+        gap: 0.45rem;
+    }
+
+    .sidebar {
+        width: min(340px, 96vw);
+    }
+
+    .program-meta-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .netflix-nav {
+        padding-left: 0.65rem;
+        padding-right: 0.65rem;
+        gap: 0.4rem;
+    }
+
+    .brand-logo {
+        font-size: 1rem;
+    }
+
+    .nav-right .nav-pill {
+        padding: 0.42rem 0.6rem;
+        font-size: 0.75rem;
+    }
+
+    .nav-right {
+        gap: 0.45rem;
+    }
+
+    .playlist-toggle select {
+        min-width: 68px;
+    }
+
+    .showcase-actions {
+        width: 100%;
+    }
+
+    .showcase-actions .btn-primary,
+    .showcase-actions .btn-secondary {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .volume-controls {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .player-controls-overlay {
+        padding-left: 0.65rem;
+        padding-right: 0.65rem;
+    }
+
+    .sidebar {
+        width: 100vw;
+    }
+
+    .sidebar-header,
+    .sidebar-search,
+    .sidebar-content {
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
+    }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+    .hero-showcase {
+        min-height: 100dvh;
+    }
+
+    .player-controls-overlay {
+        padding-top: 0.45rem;
+        padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    }
+
+    .control-btn.main-play {
+        width: 48px;
+        height: 48px;
+    }
+
+    .control-btn,
+    .control-btn-icon {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .channels-grid {
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+
+/* İSA TV HD — TV / TV Box marka logosu */
+.isa-tv-brand-mark {
+    position: fixed;
+    top: 18px;
+    right: 24px;
+    width: 112px;
+    height: 74px;
+    object-fit: contain;
+    z-index: 1000000;
+    pointer-events: none;
+}
+@media (max-width: 899px), (orientation: portrait) {
+    .isa-tv-brand-mark { display: none !important; }
+}
+@media (min-width: 900px) and (orientation: landscape) {
+    body { padding-right: 0; }
+}
+
+
+/* ISA TV HD RESPONSIVE BRANDING FINAL */
+
+/* Telefon ve dar ekranlarda eski marka yazıları yerine görsel logo */
+.isa-inline-logo {
+    display: inline-block;
+    width: auto;
+    height: 1.65em;
+    max-width: 145px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.isa-splash-logo {
+    height: 1.35em;
+    max-width: min(65vw, 300px);
+}
+
+/* Mobil görünüm */
+@media (max-width: 899px), (orientation: portrait) {
+    .isa-tv-brand-mark {
+        display: none !important;
+    }
+
+    .isa-inline-logo {
+        display: inline-block !important;
+    }
+}
+
+/* TV, TV Box ve yatay tablet görünümü */
+@media (min-width: 900px) and (orientation: landscape) {
+    .isa-tv-brand-mark {
+        display: block !important;
+        position: fixed;
+        top: 18px;
+        right: 24px;
+        width: 112px;
+        height: 74px;
+        object-fit: contain;
+        z-index: 1000000;
+        pointer-events: none;
+    }
+
+    .isa-inline-logo {
+        display: none !important;
+    }
+}
+
+
+/* ISA TV HD - SABIT LOGO TASARIMI */
+.isa-inline-logo {
+    display: none !important;
+}
+
+.isa-tv-brand-mark {
+    display: block !important;
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    width: 118px;
+    height: 82px;
+    padding: 5px;
+    object-fit: contain;
+    background: rgba(15, 15, 15, 0.55);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+    z-index: 1000000;
+    pointer-events: none;
+}
+
+.video-wrapper {
+    position: relative;
+}
+
+.video-wrapper > .isa-tv-brand-mark {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+}
+
+@media (max-width: 600px) {
+    .isa-tv-brand-mark {
+        width: 105px;
+        height: 74px;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media (min-width: 900px) and (orientation: landscape) {
+    .isa-tv-brand-mark {
+        width: 145px;
+        height: 100px;
+        top: 20px;
+        right: 25px;
+    }
+}
+
+/* İSA TV HD - Menü ve oynatıcı logo yerleşimi */
+
+/* Ana sayfa, hakkında ve indirme: logo sol menüde */
+.homepage .isa-tv-brand-mark,
+.download-page .isa-tv-brand-mark {
+    display: none !important;
+}
+
+.homepage .isa-inline-logo,
+.download-page .isa-inline-logo {
+    display: inline-block !important;
+    width: auto;
+    height: 48px;
+    max-width: 115px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+/* Menüde logo sol tarafta kalsın */
+.homepage .brand-logo,
+.download-page .brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Oynatıcı: logo videonun sağ üstünde kalır */
+.video-player-page .video-wrapper > .isa-tv-brand-mark {
+    display: block !important;
+    position: absolute !important;
+    top: 14px;
+    right: 16px;
+    width: 118px;
+    height: 82px;
+    z-index: 1000000;
+}
+
+.video-player-page .isa-inline-logo {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    .homepage .isa-inline-logo,
+    .download-page .isa-inline-logo {
+        height: 40px;
+        max-width: 95px;
+    }
+}
+
+/* ISA TV HD - SON LOGO VE OYNATICI DUZENI */
+
+/* Ana menü logosu */
+.homepage .brand-logo .isa-inline-logo,
+.download-page .brand-logo .isa-inline-logo,
+body.homepage .isa-inline-logo {
+    display: inline-block !important;
+    height: 62px !important;
+    max-height: 62px !important;
+    width: auto !important;
+    max-width: 175px !important;
+    object-fit: contain !important;
+    vertical-align: middle;
+}
+
+.homepage .brand-logo,
+.download-page .brand-logo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    min-height: 68px;
+}
+
+/* Telefon */
+@media (max-width: 600px) {
+    .homepage .brand-logo .isa-inline-logo,
+    .download-page .brand-logo .isa-inline-logo,
+    body.homepage .isa-inline-logo {
+        height: 54px !important;
+        max-height: 54px !important;
+        max-width: 150px !important;
+    }
+}
+
+/* Oynatıcı: geri düğmesi en solda */
+.player-navbar .nav-container {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 14px;
+}
+
+.player-navbar .nav-controls {
+    order: -1 !important;
+    margin-right: 12px !important;
+    margin-left: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.player-navbar .nav-logo {
+    order: 0 !important;
+    margin-right: auto !important;
+}
+
+.player-navbar .nav-controls #back-to-home {
+    order: -1 !important;
+}
+
+@media (max-width: 600px) {
+    .player-navbar .nav-container {
+        gap: 7px;
+    }
+
+    .player-navbar .nav-controls {
+        margin-right: 5px !important;
+        gap: 5px;
+    }
+
+    .player-navbar .nav-controls .btn-nav {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}
+
+/* =====================================
+   ISA TV HD - EPG KAPATMA
+   ===================================== */
+
+#epg,
+.epg,
+.epg-section,
+.epg-container,
+.epg-content,
+.epg-guide,
+.epg-menu,
+.epg-panel,
+.epg-button,
+.epg-toggle,
+[data-feature="epg"],
+[data-section="epg"],
+[id*="epg"],
+[class*="epg"],
+a[href*="epg"],
+button[aria-label*="EPG"],
+button[title*="EPG"] {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* =====================================
+   ISA TV HD - BÜYÜK AÇILIŞ LOGOSU
+   ===================================== */
+
+.splash-logo {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.splash-title {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.splash-title .isa-splash-logo {
+    width: min(85vw, 440px) !important;
+    height: auto !important;
+    max-width: 440px !important;
+    max-height: 260px !important;
+    object-fit: contain !important;
+}
+
+@media (max-width: 600px) {
+    .splash-title .isa-splash-logo {
+        width: 88vw !important;
+        max-width: 360px !important;
+        max-height: 220px !important;
+    }
+}
+
+@media (min-width: 900px) {
+    .splash-title .isa-splash-logo {
+        width: 440px !important;
+        max-height: 280px !important;
+    }
+}
+
+
+/* ISA TV HD - 4 Saniyelik Gol Animasyonu */
+
+.splash-loader {
+    width: min(78vw, 310px);
+    height: 58px;
+    margin: 28px auto 0;
+    position: relative;
+    border-bottom: 3px solid rgba(255,255,255,.75);
+    background: linear-gradient(
+        to bottom,
+        transparent 48%,
+        rgba(255,255,255,.12) 49%,
+        transparent 51%
+    );
+    overflow: visible;
+}
+
+.splash-loader::before {
+    content: "";
+    position: absolute;
+    right: 8px;
+    bottom: 0;
+    width: 35px;
+    height: 43px;
+    border: 4px solid white;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0 5px 0 0;
+    opacity: .9;
+}
+
+.splash-loader::after {
+    content: "GOL!";
+    position: absolute;
+    right: -8px;
+    top: -39px;
+    color: #ffd43b;
+    font-size: 25px;
+    font-weight: 900;
+    opacity: 0;
+    transform: scale(.3) rotate(-15deg);
+    text-shadow: 0 0 15px rgba(255,212,59,.8);
+    animation: isa-goal-text 4s ease forwards;
+}
+
+.splash-loader .loader-bar {
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 50%, #171717 0 17%, transparent 19%),
+        radial-gradient(circle at 20% 25%, #171717 0 12%, transparent 14%),
+        radial-gradient(circle at 80% 25%, #171717 0 12%, transparent 14%),
+        radial-gradient(circle at 25% 80%, #171717 0 12%, transparent 14%),
+        radial-gradient(circle at 80% 80%, #171717 0 12%, transparent 14%),
+        white;
+    border: 1px solid #ddd;
+    box-shadow: 0 3px 8px #0008;
+    animation: isa-football-shot 4s cubic-bezier(.35,.05,.25,1) forwards;
+    transform-origin: center;
+}
+
+@keyframes isa-football-shot {
+    0% {
+        left: 0;
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+    65% {
+        left: 68%;
+        transform: translateY(-18px) rotate(650deg) scale(1);
+    }
+    82% {
+        left: 88%;
+        transform: translateY(-3px) rotate(950deg) scale(1);
+    }
+    91% {
+        left: 91%;
+        transform: translateY(0) rotate(1100deg) scale(.85);
+    }
+    100% {
+        left: 91%;
+        transform: translateY(0) rotate(1200deg) scale(.85);
+    }
+}
+
+@keyframes isa-goal-text {
+    0%, 82% {
+        opacity: 0;
+        transform: scale(.3) rotate(-15deg);
+    }
+    90% {
+        opacity: 1;
+        transform: scale(1.35) rotate(5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+.splash-screen.isa-splash-ending {
+    animation: isa-splash-fade .35s ease forwards;
+}
+
+@keyframes isa-splash-fade {
+    to {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .splash-loader .loader-bar,
+    .splash-loader::after {
+        animation-duration: 4s;
+    }
+}
+
+/* İSA TV HD - Yeni açılış ekranı */
+#splash-screen {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: radial-gradient(circle at center, #173b30 0%, #071b16 75%, #020907 100%) !important;
+}
+
+#splash-screen .splash-content {
+    width: 100% !important;
+    min-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 55px !important;
+    text-align: center !important;
+}
+
+#splash-screen .splash-logo {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+}
+
+#splash-screen .splash-title {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+#splash-screen .isa-splash-logo {
+    display: block !important;
+    width: min(78vw, 430px) !important;
+    max-width: 430px !important;
+    height: auto !important;
+    max-height: 36vh !important;
+    object-fit: contain !important;
+    margin: 0 auto !important;
+}
+
+/* Futbol sahası */
+#splash-screen .splash-loader {
+    position: relative !important;
+    width: min(82vw, 520px) !important;
+    height: 115px !important;
+    overflow: visible !important;
+    border: 2px solid rgba(255,255,255,.65) !important;
+    border-radius: 8px !important;
+    background:
+        linear-gradient(90deg, transparent 49.5%, rgba(255,255,255,.25) 50%, transparent 50.5%),
+        repeating-linear-gradient(0deg, #167a39 0px, #167a39 22px, #126b32 22px, #126b32 44px) !important;
+}
+
+/* Kale ağı ve beyaz kale direkleri */
+#splash-screen .splash-loader::before {
+    content: "" !important;
+    position: absolute !important;
+    right: 7px !important;
+    top: -43px !important;
+    width: 105px !important;
+    height: 112px !important;
+    border: 7px solid #fff !important;
+    border-bottom: 0 !important;
+    border-radius: 3px 3px 0 0 !important;
+    background:
+        repeating-linear-gradient(0deg, transparent 0 13px, rgba(255,255,255,.65) 14px 15px),
+        repeating-linear-gradient(90deg, transparent 0 13px, rgba(255,255,255,.65) 14px 15px),
+        rgba(255,255,255,.08) !important;
+    box-shadow: 0 0 12px rgba(255,255,255,.5) !important;
+}
+
+/* Futbol topu */
+#splash-screen .loader-bar {
+    position: absolute !important;
+    left: 8px !important;
+    top: 50% !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    background:
+        radial-gradient(circle at 50% 50%, #111 0 16%, transparent 17%),
+        radial-gradient(circle at 20% 20%, #111 0 9%, transparent 10%),
+        radial-gradient(circle at 80% 25%, #111 0 9%, transparent 10%),
+        radial-gradient(circle at 25% 80%, #111 0 9%, transparent 10%),
+        radial-gradient(circle at 80% 80%, #111 0 9%, transparent 10%),
+        #fff !important;
+    border: 2px solid #111 !important;
+    transform: translateY(-50%) !important;
+    animation: isa-real-football-shot 4s ease-in-out forwards !important;
+    box-shadow: 0 3px 8px rgba(0,0,0,.5) !important;
+}
+
+#splash-screen .splash-loader::after {
+    content: "GOL!" !important;
+    position: absolute !important;
+    right: 15px !important;
+    top: -88px !important;
+    color: #ffe600 !important;
+    font-size: 25px !important;
+    font-weight: 900 !important;
+    text-shadow: 0 2px 8px #000 !important;
+    opacity: 0 !important;
+    animation: isa-goal-text 4s forwards !important;
+}
+
+@keyframes isa-real-football-shot {
+    0%   { left: 8px; transform: translateY(-50%) rotate(0deg) scale(1); }
+    65%  { left: 65%; transform: translateY(-85%) rotate(650deg) scale(1); }
+    82%  { left: 82%; transform: translateY(-50%) rotate(900deg) scale(.9); }
+    100% { left: calc(100% - 48px); transform: translateY(-50%) rotate(1100deg) scale(.65); }
+}
+
+@keyframes isa-goal-text {
+    0%, 78% { opacity: 0; transform: scale(.5); }
+    88%, 100% { opacity: 1; transform: scale(1.15); }
+}
+
+@media (max-width: 600px) {
+    #splash-screen .splash-content {
+        gap: 45px !important;
+    }
+
+    #splash-screen .isa-splash-logo {
+        width: 82vw !important;
+        max-height: 32vh !important;
+    }
+
+    #splash-screen .splash-loader {
+        width: 84vw !important;
+        height: 95px !important;
+    }
+
+    #splash-screen .splash-loader::before {
+        width: 82px !important;
+        height: 92px !important;
+        top: -35px !important;
+    }
+}
+
+
+/* =========================================
+   ISA TV HD - 3D FUTBOL KALESİ VE TOP
+   ========================================= */
+
+#splash-screen {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+}
+
+#splash-screen .splash-content {
+    width: 100% !important;
+    min-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 55px !important;
+}
+
+#splash-screen .splash-logo,
+#splash-screen .splash-title {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+#splash-screen .isa-splash-logo {
+    width: min(78vw, 430px) !important;
+    max-height: 36vh !important;
+    height: auto !important;
+    object-fit: contain !important;
+}
+
+/* Sahne */
+.isa-3d-scene {
+    position: relative !important;
+    width: min(90vw, 620px) !important;
+    height: 230px !important;
+    perspective: 900px !important;
+    transform-style: preserve-3d !important;
+}
+
+/* Kale */
+.isa-goal {
+    position: absolute !important;
+    width: 190px !important;
+    height: 145px !important;
+    right: 12px !important;
+    top: 25px !important;
+    transform: perspective(600px) rotateY(-9deg) rotateX(-3deg) !important;
+    transform-style: preserve-3d !important;
+}
+
+/* Kale filesi */
+.isa-goal-net {
+    position: absolute !important;
+    inset: 7px 12px 0 12px !important;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 11px, rgba(255,255,255,.65) 12px 13px),
+      repeating-linear-gradient(90deg, transparent 0 11px, rgba(255,255,255,.65) 12px 13px),
+      linear-gradient(135deg, rgba(255,255,255,.22), rgba(0,0,0,.15)) !important;
+    border: 2px solid rgba(255,255,255,.8) !important;
+    transform: skewY(-4deg) !important;
+    box-shadow: inset 0 0 20px rgba(0,0,0,.35) !important;
+}
+
+/* Kale direkleri */
+.isa-goal-left,
+.isa-goal-right,
+.isa-goal-top {
+    position: absolute !important;
+    display: block !important;
+    background: linear-gradient(90deg, #aaa, #fff 35%, #fff 65%, #999) !important;
+    border-radius: 4px !important;
+    box-shadow: 2px 4px 7px rgba(0,0,0,.5) !important;
+    z-index: 3 !important;
+}
+
+.isa-goal-left {
+    left: 5px !important;
+    top: 0 !important;
+    width: 12px !important;
+    height: 150px !important;
+}
+
+.isa-goal-right {
+    right: 5px !important;
+    top: 0 !important;
+    width: 12px !important;
+    height: 150px !important;
+}
+
+.isa-goal-top {
+    left: 5px !important;
+    top: 0 !important;
+    width: 190px !important;
+    height: 12px !important;
+}
+
+/* Kale zemini */
+.isa-goal-floor {
+    position: absolute !important;
+    bottom: -5px !important;
+    left: 10px !important;
+    width: 180px !important;
+    height: 22px !important;
+    background: linear-gradient(#eee, #777) !important;
+    transform: rotateX(65deg) !important;
+    opacity: .65 !important;
+}
+
+/* 3D futbol topu */
+.isa-3d-ball {
+    position: absolute !important;
+    left: 15px !important;
+    top: 105px !important;
+    width: 76px !important;
+    height: 76px !important;
+    border-radius: 50% !important;
+    z-index: 10 !important;
+    background:
+      radial-gradient(circle at 28% 22%, #fff 0%, #fff 7%, #e9e9e9 20%, #aaa 60%, #333 100%) !important;
+    box-shadow:
+      inset -12px -13px 20px rgba(0,0,0,.65),
+      inset 7px 7px 12px rgba(255,255,255,.95),
+      0 9px 15px rgba(0,0,0,.55) !important;
+    overflow: hidden !important;
+    animation: isa-ball-to-goal 4s cubic-bezier(.45,.05,.65,1) forwards !important;
+    transform-style: preserve-3d !important;
+}
+
+/* Topun siyah klasik futbol panelleri */
+.isa-ball-panel {
+    position: absolute !important;
+    background: linear-gradient(145deg, #333, #050505 65%, #555) !important;
+    border: 1px solid #777 !important;
+    box-shadow: inset 2px 2px 4px rgba(255,255,255,.25) !important;
+}
+
+.isa-panel-center {
+    width: 25px !important;
+    height: 25px !important;
+    left: 25px !important;
+    top: 25px !important;
+    clip-path: polygon(50% 0%, 95% 35%, 80% 90%, 20% 90%, 5% 35%) !important;
+}
+
+.isa-panel-one {
+    width: 22px !important;
+    height: 20px !important;
+    left: 5px !important;
+    top: 12px !important;
+    clip-path: polygon(20% 0, 100% 20%, 85% 100%, 0 75%) !important;
+}
+
+.isa-panel-two {
+    width: 22px !important;
+    height: 20px !important;
+    right: 5px !important;
+    top: 12px !important;
+    clip-path: polygon(0 20%, 80% 0, 100% 75%, 15% 100%) !important;
+}
+
+.isa-panel-three {
+    width: 22px !important;
+    height: 20px !important;
+    left: 7px !important;
+    bottom: 8px !important;
+    clip-path: polygon(0 20%, 90% 0, 100% 75%, 20% 100%) !important;
+}
+
+.isa-panel-four {
+    width: 22px !important;
+    height: 20px !important;
+    right: 7px !important;
+    bottom: 8px !important;
+    clip-path: polygon(10% 0, 100% 20%, 80% 100%, 0 75%) !important;
+}
+
+.isa-ball-highlight {
+    position: absolute !important;
+    left: 9px !important;
+    top: 7px !important;
+    width: 28px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.5) !important;
+    filter: blur(5px) !important;
+}
+
+/* Topun yerdeki gölgesi */
+.isa-ball-shadow {
+    position: absolute !important;
+    left: 20px !important;
+    top: 181px !important;
+    width: 75px !important;
+    height: 15px !important;
+    border-radius: 50% !important;
+    background: rgba(0,0,0,.55) !important;
+    filter: blur(6px) !important;
+    animation: isa-shadow-to-goal 4s ease-in-out forwards !important;
+}
+
+/* Gol yazısı */
+.isa-goal-text {
+    position: absolute !important;
+    right: 45px !important;
+    top: 0 !important;
+    color: #ffe600 !important;
+    font-size: 32px !important;
+    font-weight: 1000 !important;
+    text-shadow: 0 3px 12px #000 !important;
+    opacity: 0 !important;
+    animation: isa-gol-show 4s forwards !important;
+}
+
+/* Top kaleye doğru gider, yaklaşırken küçülür */
+@keyframes isa-ball-to-goal {
+    0% {
+        left: 15px;
+        top: 105px;
+        width: 76px;
+        height: 76px;
+        transform: rotate(0deg);
+    }
+    45% {
+        left: 38%;
+        top: 65px;
+        width: 65px;
+        height: 65px;
+        transform: rotate(500deg);
+    }
+    78% {
+        left: 65%;
+        top: 80px;
+        width: 48px;
+        height: 48px;
+        transform: rotate(900deg);
+    }
+    90% {
+        left: 78%;
+        top: 85px;
+        width: 38px;
+        height: 38px;
+        transform: rotate(1100deg);
+    }
+    100% {
+        left: 82%;
+        top: 88px;
+        width: 34px;
+        height: 34px;
+        transform: rotate(1300deg);
+    }
+}
+
+@keyframes isa-shadow-to-goal {
+    0% { left: 20px; opacity: .7; transform: scale(1); }
+    100% { left: 83%; opacity: .2; transform: scale(.35); }
+}
+
+@keyframes isa-gol-show {
+    0%, 85% { opacity: 0; transform: scale(.5); }
+    93%, 100% { opacity: 1; transform: scale(1.2); }
+}
+
+@media(max-width:600px) {
+    .isa-3d-scene {
+        width: 94vw !important;
+        transform: scale(.85) !important;
+    }
+    #splash-screen .isa-splash-logo {
+        width: 85vw !important;
+    }
+}
+
+/* İSA TV HD - Saydam logo açılışı */
+#splash-screen {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: rgba(0,0,0,.38) !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+}
+
+#splash-screen .splash-content {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+#splash-screen .splash-logo,
+#splash-screen .splash-title {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+#splash-screen .isa-splash-logo {
+    display: block !important;
+    width: min(85vw, 460px) !important;
+    max-height: 45vh !important;
+    height: auto !important;
+    object-fit: contain !important;
+    animation: isa-logo-light 3s ease-in-out forwards !important;
+}
+
+#splash-screen .isa-3d-scene,
+#splash-screen .splash-loader {
+    display: none !important;
+}
+
+@keyframes isa-logo-light {
+    0% {
+        opacity: .08;
+        transform: scale(.92);
+        filter: brightness(.35) drop-shadow(0 0 0 transparent);
+    }
+    45% {
+        opacity: .55;
+        transform: scale(.98);
+        filter: brightness(.8) drop-shadow(0 0 18px rgba(255,255,255,.35));
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: brightness(1.35) drop-shadow(0 0 35px rgba(255,255,255,.7));
+    }
+}
+
+/* İSA TV HD - 3 saniye logo, 6 saniye açılış */
+#splash-screen .isa-splash-logo {
+    position: relative !important;
+    left: 18px !important;
+    animation: isa-logo-six 3s ease-in-out forwards !important;
+    opacity: 0;
+}
+
+@keyframes isa-logo-six {
+    0% {
+        opacity: .03;
+        transform: scale(.90);
+        filter: brightness(.25);
+    }
+    50% {
+        opacity: .50;
+        transform: scale(.96);
+        filter: brightness(.75) drop-shadow(0 0 15px white);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: brightness(1.3) drop-shadow(0 0 30px white);
+    }
+}
+
+/* ISA TV HD SOURCE INTERFACE */
+.isa-source-section,
+.isa-vod-section {
+    padding: 28px 5%;
+    color: #fff;
+}
+
+.isa-source-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.isa-source-heading h2,
+.isa-vod-section h2 {
+    margin: 0 0 8px;
+    font-size: 25px;
+}
+
+.isa-source-heading p {
+    color: #aaa;
+    margin: 0;
+}
+
+.isa-upload-box {
+    background: #191919;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.isa-upload-icon {
+    font-size: 30px;
+    color: #e50914;
+}
+
+.isa-upload-text {
+    flex: 1;
+    min-width: 180px;
+}
+
+.isa-upload-text h3 {
+    margin: 0 0 6px;
+}
+
+.isa-upload-text p,
+#isa-upload-status {
+    color: #aaa;
+    margin: 4px 0;
+}
+
+.isa-source-button {
+    background: #e50914;
+    color: white;
+    border: 0;
+    border-radius: 7px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.isa-clear-button {
+    color: #ddd;
+    background: #333;
+    border: 0;
+    border-radius: 7px;
+    padding: 12px 16px;
+    cursor: pointer;
+}
+
+.isa-provider-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.isa-provider-card {
+    color: white;
+    background: #1b1b1b;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 14px;
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.isa-provider-card:hover {
+    border-color: #e50914;
+    transform: translateY(-2px);
+}
+
+.isa-provider-card img {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+}
+
+.isa-provider-card small {
+    color: #aaa;
+    line-height: 1.4;
+}
+
+.isa-vod-items {
+    margin-top: 24px;
+}
+
+@media(max-width:600px) {
+    .isa-source-section,
+    .isa-vod-section {
+        padding: 20px 4%;
+    }
+
+    .isa-upload-box {
+        gap: 12px;
+    }
+
+    .isa-provider-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+}
+
+/* ===== ISA TV HD LOGO SON DÜZENLEME ===== */
+
+/* Varsayılan: telefonlarda sabit logo gizli */
+.isa-tv-brand-mark {
+    display: none !important;
+}
+
+/* TV ve yatay tablet */
+@media screen and (min-width: 900px) and (orientation: landscape) {
+
+    .isa-tv-brand-mark,
+    .homepage .isa-tv-brand-mark,
+    .download-page .isa-tv-brand-mark {
+        display: block !important;
+        position: fixed !important;
+        top: 20px !important;
+        right: 25px !important;
+        left: auto !important;
+        bottom: auto !important;
+        width: 145px !important;
+        height: 100px !important;
+        max-width: 145px !important;
+        max-height: 100px !important;
+        padding: 5px !important;
+        object-fit: contain !important;
+        background: rgba(15, 15, 15, 0.55) !important;
+        border: 1px solid rgba(255,255,255,0.18) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.45) !important;
+        z-index: 2147483647 !important;
+        pointer-events: none !important;
+    }
+
+    /* Oynatıcıdaki logo da ekranın sağ üstüne sabitlensin */
+    .video-player-page .video-wrapper > .isa-tv-brand-mark {
+        position: fixed !important;
+        top: 20px !important;
+        right: 25px !important;
+        width: 145px !important;
+        height: 100px !important;
+        z-index: 2147483647 !important;
+    }
+
+    /* TV'de menü içindeki ikinci logo gizli */
+    .homepage .brand-logo .isa-inline-logo,
+    .download-page .brand-logo .isa-inline-logo {
+        display: none !important;
+    }
+}
+
+/* Telefon ve dikey ekran: sabit köşe logosu tamamen gizli */
+@media screen and (max-width: 899px), screen and (orientation: portrait) {
+    .isa-tv-brand-mark {
+        display: none !important;
+    }
+}
+
+/* ===== ISA TV HD LOGO SON DÜZENLEME BİTTİ ===== */
+

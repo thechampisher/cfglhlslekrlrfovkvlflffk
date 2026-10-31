@@ -2,154 +2,239 @@ package com.isatvhd.player;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.graphics.Color;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.*;
 import android.content.Intent;
-import org.json.*;
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import java.util.concurrent.*;
+import android.net.Uri;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.webkit.WebChromeClient;
+import android.webkit.ValueCallback;
+import android.webkit.WebSettings;
+import android.webkit.JavascriptInterface;
+import android.graphics.Color;
+
+import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends Activity {
 
-    // Worker adresi admin paneli kurulunca buraya bağlanacak.
-    private static final String API_URL = "";
+    private WebView webView;
+    private ValueCallback<Uri[]> fileCallback;
+    private static final int FILE_REQUEST = 2001;
 
-    private LinearLayout root;
-    private LinearLayout channelContainer;
-    private TextView status;
-    private ExecutorService executor;
+    private final ExecutorService networkExecutor =
+            Executors.newFixedThreadPool(3);
 
     @Override
-    protected void onCreate(Bundle state) {
-        super.onCreate(state);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        executor = Executors.newSingleThreadExecutor();
+        getWindow().setStatusBarColor(Color.BLACK);
+        getWindow().setNavigationBarColor(Color.BLACK);
 
-        root = new LinearLayout(this);
-        root.setOrientation(LinearLayout.VERTICAL);
-        root.setPadding(22, 28, 22, 20);
-        root.setBackgroundColor(Color.rgb(12, 18, 28));
+        webView = new WebView(this);
+        webView.setBackgroundColor(Color.rgb(12, 12, 12));
 
-        TextView title = new TextView(this);
-        title.setText("İSA TV HD");
-        title.setTextSize(29);
-        title.setTextColor(Color.WHITE);
-        title.setGravity(Gravity.CENTER);
-        title.setPadding(8, 20, 8, 24);
-        root.addView(title);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setAllowContentAccess(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setMediaPlaybackRequiresUserGesture(false);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
 
-        TextView section = new TextView(this);
-        section.setText("CANLI YAYIN");
-        section.setTextSize(18);
-        section.setTextColor(Color.rgb(0, 210, 160));
-        section.setPadding(4, 12, 4, 12);
-        root.addView(section);
+        webView.addJavascriptInterface(new ISATVBridge(), "ISATV");
 
-        status = new TextView(this);
-        status.setTextColor(Color.LTGRAY);
-        status.setTextSize(15);
-        status.setPadding(4, 12, 4, 16);
-        root.addView(status);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
 
-        Button refresh = new Button(this);
-        refresh.setText("KANALLARI YENİLE");
-        root.addView(refresh);
-
-        ScrollView scroll = new ScrollView(this);
-        channelContainer = new LinearLayout(this);
-        channelContainer.setOrientation(LinearLayout.VERTICAL);
-        scroll.addView(channelContainer);
-        root.addView(scroll, new LinearLayout.LayoutParams(
-                -1, 0, 1
-        ));
-
-        refresh.setOnClickListener(v -> loadChannels());
-
-        setContentView(root);
-        loadChannels();
-    }
-
-    private void loadChannels() {
-        channelContainer.removeAllViews();
-
-        if (API_URL.isEmpty()) {
-            status.setText("Kanal sunucusu henüz bağlanmadı. Admin paneli kurulduğunda kanallar burada görünecek.");
-            return;
-        }
-
-        status.setText("Kanallar yükleniyor...");
-
-        executor.execute(() -> {
-            try {
-                URL url = new URL(API_URL);
-                HttpURLConnection connection =
-                        (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(10000);
-                connection.setReadTimeout(15000);
-                connection.setRequestMethod("GET");
-
-                StringBuilder data = new StringBuilder();
-                try (BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream()))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        data.append(line);
-                    }
-                }
-                connection.disconnect();
-
-                JSONObject json = new JSONObject(data.toString());
-                JSONArray channels = json.optJSONArray("channels");
-
-                runOnUiThread(() -> showChannels(channels));
-
-            } catch (Exception e) {
-                runOnUiThread(() ->
-                        status.setText("Kanal listesi alınamadı: " + e.getMessage()));
+                view.evaluateJavascript(
+                    "(function(){" +
+                    "document.querySelectorAll('.splash-screen,#splash-screen,.splash-overlay,.splash-loader')" +
+                    ".forEach(function(e){e.style.display='none';});" +
+                    "})();", null);
             }
         });
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onShowFileChooser(
+                    WebView view,
+                    ValueCallback<Uri[]> callback,
+                    FileChooserParams params) {
+
+                if (fileCallback != null) {
+                    fileCallback.onReceiveValue(null);
+                }
+
+                fileCallback = callback;
+
+                Intent intent = params.createIntent();
+
+                try {
+                    startActivityForResult(intent, FILE_REQUEST);
+                } catch (Exception e) {
+                    fileCallback = null;
+                    callback.onReceiveValue(null);
+                    return false;
+                }
+
+                return true;
+            }
+        });
+
+        setContentView(webView);
+        webView.loadUrl("file:///android_asset/streamflix/index.html");
     }
 
-    private void showChannels(JSONArray channels) {
-        channelContainer.removeAllViews();
+    public class ISATVBridge {
 
-        if (channels == null || channels.length() == 0) {
-            status.setText("Henüz kanal eklenmemiş.");
-            return;
+        @JavascriptInterface
+        public void play(String name, String url, String headersJson) {
+            runOnUiThread(() -> {
+                if (url == null || !url.matches("(?i)^https?://.*")) {
+                    return;
+                }
+
+                Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
+                intent.putExtra("stream_url", url);
+                intent.putExtra("channel_name",
+                        name == null ? "İSA TV HD" : name);
+                intent.putExtra("headers_json",
+                        headersJson == null ? "{}" : headersJson);
+
+                startActivity(intent);
+            });
         }
 
-        status.setText(channels.length() + " kanal bulundu.");
+        @JavascriptInterface
+        public void fetchText(String address, String callbackId) {
+            networkExecutor.execute(() -> {
+                String result = null;
+                String error = null;
+                HttpURLConnection connection = null;
 
-        for (int i = 0; i < channels.length(); i++) {
-            JSONObject channel = channels.optJSONObject(i);
-            if (channel == null) continue;
+                try {
+                    URL url = new URL(address);
 
-            String name = channel.optString("name", "İsimsiz kanal");
-            String stream = channel.optString("url", "");
+                    if (!url.getProtocol().equalsIgnoreCase("http")
+                            && !url.getProtocol().equalsIgnoreCase("https")) {
+                        throw new Exception("Yalnızca HTTP/HTTPS adresleri desteklenir.");
+                    }
 
-            if (stream.isEmpty()) continue;
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setConnectTimeout(15000);
+                    connection.setReadTimeout(20000);
+                    connection.setRequestMethod("GET");
+                    connection.setRequestProperty("Accept", "*/*");
+                    connection.setRequestProperty(
+                        "User-Agent",
+                        "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 Chrome/120 Mobile Safari/537.36"
+                    );
 
-            Button item = new Button(this);
-            item.setText(name);
-            item.setAllCaps(false);
-            channelContainer.addView(item);
+                    int code = connection.getResponseCode();
 
-            item.setOnClickListener(v -> {
-                Intent intent = new Intent(this, PlayerActivity.class);
-                intent.putExtra("url", stream);
-                intent.putExtra("name", name);
-                startActivity(intent);
+                    if (code < 200 || code >= 300) {
+                        throw new Exception("HTTP " + code);
+                    }
+
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(connection.getInputStream(), "UTF-8"));
+
+                    StringBuilder output = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        output.append(line).append('\n');
+
+                        if (output.length() > 15 * 1024 * 1024) {
+                            throw new Exception("Liste boyutu 15 MB sınırını aştı.");
+                        }
+                    }
+
+                    reader.close();
+                    result = output.toString();
+
+                } catch (Exception e) {
+                    error = e.getMessage();
+                } finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+
+                final String response = result;
+                final String failure = error;
+
+                runOnUiThread(() -> {
+                    if (webView == null) return;
+
+                    String safeId = callbackId.replaceAll("[^0-9]", "");
+
+                    String js = "window.__isaFetchDone("
+                            + safeId + ","
+                            + JSONObject.quote(response)
+                            + ","
+                            + JSONObject.quote(failure)
+                            + ");";
+
+                    webView.evaluateJavascript(js, null);
+                });
             });
         }
     }
 
     @Override
+    protected void onActivityResult(
+            int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == FILE_REQUEST && fileCallback != null) {
+            Uri[] result = WebChromeClient.FileChooserParams
+                    .parseResult(resultCode, data);
+
+            fileCallback.onReceiveValue(result);
+            fileCallback = null;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
+        if (fileCallback != null) {
+            fileCallback.onReceiveValue(null);
+            fileCallback = null;
+        }
+
+        networkExecutor.shutdownNow();
+
+        if (webView != null) {
+            webView.destroy();
+            webView = null;
+        }
+
         super.onDestroy();
-        if (executor != null) executor.shutdownNow();
     }
 }
